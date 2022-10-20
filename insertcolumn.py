@@ -36,5 +36,5 @@ def _insert_Ubigeo_():
 
 #_insert_Ubigeo_()
 
-print(_get_Ubigeo("LIMA","LIMA","MAGDALENA DEL MAR"))
+#print(_get_Ubigeo("LIMA","LIMA","MAGDALENA DEL MAR"))
 
