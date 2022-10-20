@@ -35,18 +35,18 @@ types={'Fecha de entrega':str, 'Tipo de vía':np.float64,
 class dataReader:
     def _read_xlsx(self, file):
         log.info('Input format is Excel Spreadsheet.')
-        f_tr = pd.read_excel(file,dtype=types)
-        #return np.sum(f_tr['calldata/GT'], axis=2).T/2
+        return pd.read_excel(file,dtype=types)
+        
     
     def _read_csv(self, file):
         log.info('Input format is Comma Separated Values file')
-        f_tr = pd.read_csv(file,dtype=types)
-        #return f_tr['snps']
+        return pd.read_csv(file,dtype=types)
+        
     
     def _read_tsv(self, file):
         log.info('Input format is Tab Separated Values file')
-        f_tr = pd.read_csv(file,dtype=types,sep='\t')
-        #return (G.T/2).compute()
+        return pd.read_csv(file,dtype=types,sep='\t')
+        
     
     
     def read_data(self, file):
@@ -59,4 +59,4 @@ class dataReader:
         else:
             log.error('Invalid format. Unrecognized file format. Make sure file ends with .xlsx | .xls | .tsv | .csv')
             sys.exit(1)
-        #return G if np.mean(G) < 0.5 else 1-G
+        return G 
