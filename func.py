@@ -20,5 +20,5 @@ def categoricalVia(tbl: pd.DataFrame() = None):
 
 def downloadLoc(lat,long):
     import googlemaps
-    gmaps = googlemaps.Client(key='AIzaSyC9WdDFLBJX0qVTQNxsQZCT_ERyxHB4s5c')
+    gmaps = googlemaps.Client(key=open('clave.txt').readline())
     
