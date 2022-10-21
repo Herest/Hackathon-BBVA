@@ -11,12 +11,10 @@ import pandas as pd
 class GetUbigeo:
     #Uso df que es el nombre del dataset para disminuir el tamaño del código
     def _get_Ubigeo(Departamento, Provincia, Distrito):
-      df = pd.read_excel("geodir-ubigeo-inei.xlsx",encoding='latin-1')
+      df = pd.read_csv("geodir-ubigeo-inei.xlsx",encoding='latin-1')
       try:
           solucion = df.loc[(df['Departamento']==Departamento)&(df['Provincia']==Provincia)&(df['Distrito']==Distrito)]
           return str(solucion["Código"])
       except:
           print("Esa combinación de valores no existe.")
       
-    
-    #print(_get_Ubigeo("AMAZONAS","CHACHAPOYAS", "LA JALCA"))
