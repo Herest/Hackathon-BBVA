@@ -11,7 +11,7 @@ from GetUbigeo import *
 from dataReader import dataReader
 
 dataReader=dataReader()
-df=dataReader.read_data('./Valorización Data Driven/dataset_tasacion_train_vf.xlsx')
+df=dataReader.read_data('dataset_tasacion_train_vf.xlsx')
 
 gmaps = googlemaps.Client(key=open('clave.txt').readline())
 
