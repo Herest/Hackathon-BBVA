@@ -13,39 +13,68 @@ import pandas as pd
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 log = logging.getLogger(__name__)
 
-cols=['Fecha de entrega', 'Tipo de vía', 'Piso o nivel', 'Departamento',
-      'Provincia', 'Distrito', 'Número de estacionamientos',
-      'Número de depósitos', 'Latitud (Decimal)', 'Longitud (Decimal)',
-      'Categoría del bien', 'Posición', 'Número de frentes', 'Edad', 'Elevador',
-      'Estado de conservación:', 'Método Representado',
-      'Moneda Principal para cálculos', 'ÁREA del Terreno',
-      'ÁREA de Edificación', 'Valor Comercial']
-
 types={'Fecha de entrega':str, 'Tipo de vía':str, 
-       'Piso o nivel':np.float64,'Departamento':str,'Provincia':str,
-       'Distrito':str, 'Número de estacionamientos':np.float64,
-       'Número de depósitos':np.float64,'Latitud (Decimal)':np.float64,
+       'Piso':str,'Departamento':str,'Provincia':str,
+       'Distrito':str, 'Número de estacionamiento':str,
+       'Depósitos':np.float64,'Latitud (Decimal)':np.float64,
        'Longitud (Decimal)':np.float64,'Categoría del bien':str,
        'Posición':str, 'Número de frentes':np.float64, 'Edad':np.float64,
        'Elevador':np.float64,'Estado de conservación:':str,
-       'Método Representado':str, 'Moneda Principal para cálculos':str,
-       'ÁREA del Terreno':np.float64, 'ÁREA de Edificación':np.float64,
-       'Valor Comercial':np.float64}
+       'Método Representado':str,
+       'Área Terreno':str, 'Área Construcción':str,
+       'Valor comercial(USD)':np.float64}
 
-class dataReader:
+class dataReader():
     def _read_xlsx(self, file):
         log.info('Input format is Excel Spreadsheet.')
-        return pd.read_excel(file,dtype=types)
+        try:
+            df = pd.read_excel(file,dtype=types)
+            df.drop(['Posición','Número de frentes'],axis=1,inplace=True)
+
+            df['Área Terreno'] =  df['Área Terreno'].apply(lambda x: 
+                                                float(str(x).replace(',','')))
+            df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
+                                                float(str(x).replace(',','')))
+                
+
+            return df
+        except Exception as e: 
+            print(e)
+            print('Algún tipo de dato introducido es incorrecto')
 
 
     def _read_csv(self, file):
         log.info('Input format is Comma Separated Values file')
-        return pd.read_csv(file,dtype=types)
+        try:
+            df = pd.read_csv(file,dtype=types,encoding='latin-1')
+            df.drop(['Posición','Número de frentes'],axis=1,inplace=True)
+       
+            df['Área Terreno'] =  df['Área Terreno'].apply(lambda x: 
+                                                float(str(x).replace(',','')))
+            df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
+                                                float(str(x).replace(',','')))                                                           
+            return df
+        except Exception as e: 
+            print(e)
+            print('Algún tipo de dato introducido es incorrecto')
 
 
     def _read_tsv(self, file):
         log.info('Input format is Tab Separated Values file')
-        return pd.read_csv(file,dtype=types,sep='\t')
+        try:
+            df = pd.read_csv(file,dtype=types,sep='\t',encoding='latin-1')
+            df.drop(['Posición','Número de frentes'],axis=1,inplace=True)
+             
+            df['Área Terreno'] =  df['Área Terreno'].apply(lambda x: 
+                                                float(str(x).replace(',','')))
+            df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
+                                                float(str(x).replace(',','')))
+            
+            return df
+        except Exception as e: 
+            print(e)
+            print('Algún tipo de dato introducido es incorrecto')
+
 
 
 
