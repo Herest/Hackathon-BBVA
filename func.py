@@ -5,8 +5,9 @@ from sklearn.impute import KNNImputer
 
 
 def categoricalVia(tbl: pd.DataFrame() = None):
-    labels={1:'CALLE', 2:'JIRON', 3:'AVENIDA', 4:'PASAJE', 5:'CARRETERA', 
-            6:'MANZANA', 7:'LOTE', 8:'PARCELA', 9:'FUNDO', 10:'SIN_VIA'}
+    labels={'1':'CALLE', '2':'JIRON', '3':'AVENIDA', '4':'PASAJE', 
+            '5':'CARRETERA', '6':'MANZANA', '7':'LOTE', '8':'PARCELA', 
+            '9':'FUNDO', '10':'SIN_VIA'}
     try:
         tbl['VIA'] = tbl['Tipo de vía'].apply(lambda x: labels[x])
         tbl.drop('Tipo de vía',axis=1,inplace=True)
@@ -18,7 +19,16 @@ def categoricalVia(tbl: pd.DataFrame() = None):
         return tbl
     
 
-def downloadLoc(lat,long):
-    import googlemaps
-    gmaps = googlemaps.Client(key=open('clave.txt').readline())
+def downloadLoc(lat,long,loc,gmaps):
+    #locaciones=['escuelas','parques','restaurantes','bares','gasolineras']
+    #locs={key:0 for key in locaciones}
+    #for loc in locaciones:
+    call=gmaps.places_nearby((lat,long), radius=1000,keyword=loc)
+    #    locs[loc]=len(call['results'])
+    return len(call['results'])
+
+def latlotPostalCode(lat,long,gmaps):
+    call=gmaps.reverse_geocode((lat,long))
+    return call[0]['address_components'][-1]['long_name']
+    
     
