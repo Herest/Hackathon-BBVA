@@ -14,7 +14,7 @@ from unidecode import unidecode
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 log = logging.getLogger(__name__)
 
-types={'Fecha de entrega':str, 'Tipo de vía':str, 
+types={'ID':np.float64,'Fecha de entrega':str, 'Tipo de vía':str, 
        'Piso':str,'Departamento':str,'Provincia':str,
        'Distrito':str, 'Número de estacionamiento':str,
        'Depósitos':np.float64,'Latitud (Decimal)':np.float64,

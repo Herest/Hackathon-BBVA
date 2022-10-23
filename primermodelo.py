@@ -25,21 +25,15 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error,r2_score
 
 df_Base_Datos = pd.read_csv("Archivo_Latitud_Limpia.csv", encoding = 'latin-1')
 X = pd.read_csv('Archivo_Latitud_Limpia.csv',usecols = [i for i in range(17)], encoding = 'latin-1')
-lbl = preprocessing.LabelEncoder()
-X['Año/Mes'] = lbl.fit_transform(X['Año/Mes'].astype(str))
-X['Piso'] = lbl.fit_transform(X['Piso'].astype(str))
-X['Categoría del bien'] = lbl.fit_transform(X['Categoría del bien'].astype(str))
-X['Estado de conservación'] = lbl.fit_transform(X['Estado de conservación'].astype(str))
-X['Método Representado'] = lbl.fit_transform(X['Método Representado'].astype(str))
-X['Área Terreno'] = lbl.fit_transform(X['Área Terreno'].astype(str))
-X['Área Construcción'] = lbl.fit_transform(X['Área Construcción'].astype(str))
-#Y['Año/Mes'] = lbl.fit_transform(X['Año/Mes'].astype(str))
+for col in ['VIA','Categoría del bien','Estado de conservación','Método Representado']:
+    X=pd.concat([X,pd.get_dummies(X[col])],axis=1)
+    X.drop(col,axis=1,inplace=True)
+
 
 y = pd.read_csv('Archivo_Latitud_Limpia.csv', usecols=["Valor comercial (USD)"], encoding = 'latin-1')
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-print(y_train.dtypes)
 
-model = XGBRegressor(n_estimators=1000, max_depth=100, eta=0.7, subsample=0.7, colsample_bytree=0.8)
+model = XGBRegressor(n_estimators=1000)
 
 model.fit(X_train,y_train)
 
@@ -48,3 +42,15 @@ print(mean_absolute_error(y_test, y_pred))
 print(mean_squared_error(y_test, y_pred))
 print(r2_score(y_test, y_pred))
 
+
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedKFold
+
+model = XGBRegressor(n_estimators=2000)
+cv = RepeatedKFold(n_splits=10, n_repeats=10)
+# evaluate model
+scores = cross_val_score(model, X, y, scoring='r2', cv=cv)
+
+from sklearn.ensemble import RandomForestRegressor
+
+regrs=RandomForestRegressor(n_estimators=1000,)

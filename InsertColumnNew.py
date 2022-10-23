@@ -12,30 +12,29 @@ def _get_Ubigeo(Departamento, Provincia, Distrito):
   #Departamento=Departamento.upper()
   #Provincia=Provincia.upper()
   #Provincia=Provincia.upper()
-  df = pd.read_csv("geodir-ubigeo-inei.csv",encoding = 'utf-8-sig')
+  with open('dict.json') as json_file:
+    data = json.load(json_file)
   #print(df.head(5))
   #print(df.loc[(df['Departamento']==Departamento)])
   #print(df.loc[(df['Provincia']==Provincia)])
   #print(df.loc[(df['Distrito']==Distrito)])
   try: 
-      solucion = df.loc[(df['Departamento']==Departamento)&(df['Provincia']==Provincia)&(df['Distrito']==Distrito)]
+      solucion = data[Departamento][Provincia][Distrito]
       return int(solucion["Ubigeo"])
   except:
       return 0
 #_get_Ubigeo("Amazonas", "Chachapoyas", "Chachapoyas")
 
 import pandas as pd
-
+import json
 
   #hace un diccionario y lo agrega
-def _insert_Ubigeo_():
+def _insert_Ubigeo_(df):
   #Aquí cambiar el nombre al de la base de datos
-  ubigeo_row = pd.Series([])  
-  df_Base_Datos = pd.read_excel("dataset_tasacion_train_vf.xlsx")
-  for i in range(df_Base_Datos.shape[0]):
-    ubigeo_row[i]=_get_Ubigeo(str(df_Base_Datos['Departamento'][i]),str(df_Base_Datos['Provincia'][i]),str(df_Base_Datos['Distrito'][i]))
+  ubigeo_row = df[['Departamento','Provincia','Distrito']].apply(lambda x:
+        _get_Ubigeo(str(x['Departamento']),str(x['Provincia']),str(x['Distrito'])),
+        axis=1)
+  
+  df.insert(6,"Ubigeo", ubigeo_row)
+  return df
 
-  df_Base_Datos.insert(6,"Ubigeo", ubigeo_row)
-  df_Base_Datos.to_csv('PreFinal.csv', header = True, )
-
-_insert_Ubigeo_()
