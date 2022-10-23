@@ -9,18 +9,18 @@ Created on Sun Oct 23 08:36:44 2022
 import pickle
 import numpy as np
 from func import *
-from CleanAge import *
+from CleanAge import _Clean_Age
 from InsertColumnNew import _insert_Ubigeo_, _get_Ubigeo
 from dataReader import dataReader
 import pandas.api.types as ptypes
 
 dataReader=dataReader()
-df=dataReader.read_data('~/Downloads/dataset_tasacion_test_vf.xlsx')
+df=dataReader.read_data('~/Downloads/data_test_final_equipos_consolidado.xlsx')
 
 
 ID=df['ID']
 df=_insert_Ubigeo_(df)
-df=CleanAge(df)
+df=_CleanAge(df)
 df['Tipo de vía']=df['Tipo de vía'].astype(str)
 df=categoricalVia(df)
 
