@@ -15,7 +15,10 @@ def get_zipcode(geolocator, lat_field, lon_field):
 def categoricalVia(tbl: pd.DataFrame() = None):
     labels={'1.0':'CALLE', '2.0':'JIRON', '3.0':'AVENIDA', '4.0':'PASAJE', 
             '5.0':'CARRETERA', '6.0':'MANZANA', '7.0':'LOTE', '8.0':'PARCELA', 
-            '9.0':'FUNDO', '10.0':'SIN_VIA','nan':'nan'}
+            '9.0':'FUNDO', '10.0':'SIN_VIA','nan':'nan',
+            '1':'CALLE', '2':'JIRON', '3':'AVENIDA', '4':'PASAJE', 
+            '5':'CARRETERA', '6':'MANZANA', '7':'LOTE', '8':'PARCELA', 
+            '9':'FUNDO', '10':'SIN_VIA','nan':'nan'}
     try:
         tbl['VIA'] = tbl['Tipo de vía'].apply(lambda x: labels[x])
         tbl.drop('Tipo de vía',axis=1,inplace=True)
