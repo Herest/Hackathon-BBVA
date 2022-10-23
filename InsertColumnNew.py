@@ -12,14 +12,13 @@ def _get_Ubigeo(Departamento, Provincia, Distrito):
   #Departamento=Departamento.upper()
   #Provincia=Provincia.upper()
   #Provincia=Provincia.upper()
-  with open('dict.json') as json_file:
-    data = json.load(json_file)
+  df = pd.read_excel("geodir-ubigeo-inei.xlsx")
   #print(df.head(5))
   #print(df.loc[(df['Departamento']==Departamento)])
   #print(df.loc[(df['Provincia']==Provincia)])
   #print(df.loc[(df['Distrito']==Distrito)])
   try: 
-      solucion = data[Departamento][Provincia][Distrito]
+      solucion = df.loc[(df['Departamento']==Departamento)&(df['Provincia']==Provincia)&(df['Distrito']==Distrito)]
       return int(solucion["Ubigeo"])
   except:
       return 0
