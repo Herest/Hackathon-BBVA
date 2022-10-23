@@ -9,6 +9,7 @@ import sys
 import logging
 import numpy as np
 import pandas as pd
+from unidecode import unidecode
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -30,13 +31,16 @@ class dataReader():
         try:
             df = pd.read_excel(file,dtype=types)
             df.drop(['Posición','Número de frentes'],axis=1,inplace=True)
-
+    
             df['Área Terreno'] =  df['Área Terreno'].apply(lambda x: 
-                                                float(str(x).replace(',','')))
+                                                    float(str(x).replace(',','')))
             df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
-                                                float(str(x).replace(',','')))
-                
-
+                                                    float(str(x).replace(',','')))
+                    
+            cols=['Departamento','Provincia','Distrito']
+            for col in cols:
+                 df[col] = df[col].apply(lambda x: unidecode(x))    
+                    
             return df
         except Exception as e: 
             print(e)
@@ -53,6 +57,12 @@ class dataReader():
                                                 float(str(x).replace(',','')))
             df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
                                                 float(str(x).replace(',','')))                                                           
+            cols=['Tipo de vía','Departamento','Provincia','Distrito',
+                  'Categoría del bien', 'Método Representado',
+                  'Estado de conservación']
+            cols=['Departamento','Provincia','Distrito']
+            for col in cols:
+                df[col] = df[col].apply(lambda x: unidecode(x))    
             return df
         except Exception as e: 
             print(e)
@@ -69,7 +79,10 @@ class dataReader():
                                                 float(str(x).replace(',','')))
             df['Área Construcción'] = df['Área Construcción'].apply(lambda x: 
                                                 float(str(x).replace(',','')))
-            
+            cols=['Departamento','Provincia','Distrito']
+            for col in cols:
+                df[col] = df[col].apply(lambda x: unidecode(x))    
+                
             return df
         except Exception as e: 
             print(e)

@@ -1,7 +1,15 @@
-import os
-import pandas as pd
+
+import geopy
 import numpy as np
+import pandas as pd
 from sklearn.impute import KNNImputer
+
+
+
+def get_zipcode(df, geolocator, lat_field, lon_field):
+    location = geolocator.reverse((df[lat_field], df[lon_field]))
+    return location.raw['address']['postcode']
+
 
 
 def categoricalVia(tbl: pd.DataFrame() = None):
@@ -27,8 +35,5 @@ def downloadLoc(lat,long,loc,gmaps):
     #    locs[loc]=len(call['results'])
     return len(call['results'])
 
-def latlotPostalCode(lat,long,gmaps):
-    call=gmaps.reverse_geocode((lat,long))
-    return call[0]['address_components'][-1]['long_name']
     
     
