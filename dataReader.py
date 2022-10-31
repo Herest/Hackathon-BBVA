@@ -20,7 +20,7 @@ types={'ID':np.float64,'Fecha de entrega':str, 'Tipo de vía':str,
        'Depósitos':np.float64,'Latitud (Decimal)':np.float64,
        'Longitud (Decimal)':np.float64,'Categoría del bien':str,
        'Posición':str, 'Número de frentes':np.float64, 'Edad':np.float64,
-       'Elevador':np.float64,'Estado de conservación:':str,
+       'Elevador':np.float64,'Estado de conservación':str,
        'Método Representado':str,
        'Área Terreno':str, 'Área Construcción':str,
        'Valor comercial(USD)':np.float64}
